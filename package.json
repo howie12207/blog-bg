@@ -1,23 +1,25 @@
 {
-  "name": "blog-bg",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "element-plus": "^1.1.0-beta.19",
-    "unplugin-vue-components": "^0.15.6",
-    "vue": "^3.2.16",
-    "vue-router": "^4.0.11"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-vue": "^1.9.3",
-    "autoprefixer": "^10.3.7",
-    "postcss": "^8.3.9",
-    "prettier": "^2.4.1",
-    "tailwindcss": "^2.2.16",
-    "vite": "^2.6.4"
-  }
+    "name": "blog-bg",
+    "version": "0.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "serve": "vite preview"
+    },
+    "dependencies": {
+        "axios": "^0.22.0",
+        "element-plus": "^1.1.0-beta.19",
+        "js-cookie": "^3.0.1",
+        "unplugin-vue-components": "^0.15.6",
+        "vue": "^3.2.16",
+        "vue-router": "^4.0.11"
+    },
+    "devDependencies": {
+        "@vitejs/plugin-vue": "^1.9.3",
+        "autoprefixer": "^10.3.7",
+        "postcss": "^8.3.9",
+        "prettier": "^2.4.1",
+        "tailwindcss": "^2.2.16",
+        "vite": "^2.6.4"
+    }
 }
