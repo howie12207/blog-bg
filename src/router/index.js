@@ -4,13 +4,13 @@ import Login from '@/views/login/Login.vue';
 export const router = createRouter({
     history: createWebHistory('/blog-bg/'),
     routes: [
-        // {
-        //     path: '/',
-        //     component: Home,
-        //     meta: {
-        //         name: 'Dashboard'
-        //     }
-        // },
+        {
+            path: '/',
+            component: import('@/views/home/Home.vue'),
+            meta: {
+                name: 'Dashboard'
+            }
+        },
         {
             path: '/login',
             component: Login,
