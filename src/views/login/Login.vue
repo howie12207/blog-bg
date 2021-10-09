@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import BaseInput from '@c/baseInput/BaseInput.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
-import { login } from '@/api/user';
+import { Login } from '@/api/user';
 import { ElMessage } from 'element-plus';
 
 const account = ref({
@@ -30,18 +30,18 @@ const password = ref({
 });
 
 const onKeyup = e => {
-    if (e.keyCode === 13) loginHandle();
+    if (e.keyCode === 13) login();
 };
 
 const isLoading = ref(false);
 const disabledBtn = computed(() => {
     return !account.value.isValid || !password.value.isValid || isLoading.value;
 });
-const loginHandle = async () => {
+const login = async () => {
     if (disabledBtn.value) return;
     isLoading.value = true;
     const params = { account: account.value.inputValue, password: password.value.inputValue };
-    const res = await login(params);
+    const res = await Login(params);
     if (res) {
         ElMessage({
             type: 'success',
@@ -77,7 +77,7 @@ const loginHandle = async () => {
                     mainColor="#2390fa"
                     :disabled="disabledBtn"
                     :loading="isLoading"
-                    @click="loginHandle"
+                    @click="login"
                     >Sign in</BaseButton
                 >
             </div>

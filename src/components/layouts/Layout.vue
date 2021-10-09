@@ -8,7 +8,7 @@ import Sidebar from './sidebar/Sidebar.vue';
         <Header />
         <section class="flex-grow flex">
             <Sidebar class="flex-shrink-0" />
-            <main class="flex-grow overflow-auto bg-gray-50">
+            <main class="flex-grow overflow-auto bg-gray-200">
                 <slot></slot>
             </main>
         </section>

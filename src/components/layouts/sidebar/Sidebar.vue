@@ -2,7 +2,7 @@
 const navList = [
     { id: 1, label: '文章管理', icon: 'article', url: '/articleManage' },
     { id: 2, label: '留言管理', icon: 'comment', url: '/commentManage' },
-    { id: 3, label: 'Tag管理', icon: 'tag', url: '/tagManage' },
+    { id: 3, label: '分類管理', icon: 'sort', url: '/sortManage' },
     { id: 4, label: '作品管理', icon: 'works', url: '/worksManage' },
     { id: 5, label: '會員管理', icon: 'member', url: '/memberManage' },
     { id: 6, label: '管理員管理', icon: 'admin', url: '/adminManage' }

@@ -18,6 +18,13 @@ export const router = createRouter({
                 name: 'Login',
                 blank: true
             }
+        },
+        {
+            path: '/articleManage',
+            component: import('@/views/articleManage/ArticleManage.vue'),
+            meta: {
+                name: 'Dashboard'
+            }
         }
         // {
         //   path: "/:pathMatch(.*)*",
