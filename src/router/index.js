@@ -23,7 +23,14 @@ export const router = createRouter({
             path: '/articleManage',
             component: import('@/views/articleManage/ArticleManage.vue'),
             meta: {
-                name: 'Dashboard'
+                name: 'Article'
+            }
+        },
+        {
+            path: '/sortManage',
+            component: import('@/views/sortManage/SortManage.vue'),
+            meta: {
+                name: 'Sort'
             }
         }
         // {

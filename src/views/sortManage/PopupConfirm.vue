@@ -1,0 +1,57 @@
+<script setup>
+import PopupCommon from '@c/mask/PopupCommon.vue';
+import { ElMessage } from 'element-plus';
+import { DeleteSort } from '@/api/sort';
+const props = defineProps({
+    type: {
+        type: String,
+        default: ''
+    },
+    detailData: {
+        type: Object,
+        default: () => ({})
+    }
+});
+const emit = defineEmits(['close', 'fetchSorts']);
+
+const content = {
+    delete: {
+        title: '刪除分類'
+    }
+};
+
+const closeEmit = () => {
+    emit('close');
+};
+const submit = async close => {
+    const type = props.type;
+    const method = {
+        delete: {
+            api: DeleteSort,
+            params: props.detailData._id,
+            msg: '刪除成功'
+        }
+    };
+    const res = await method[type]?.api(method[type]?.params);
+    if (res) {
+        emit('fetchSorts');
+        ElMessage({
+            type: 'success',
+            message: method[type]?.msg,
+            showClose: true
+        });
+    }
+    close();
+};
+</script>
+
+<template>
+    <PopupCommon :title="content[type].title" @close="closeEmit" @submit="submit">
+        <template #content>
+            <h2 class="mb-4">
+                確定是否{{ content[type].title }}
+                <span class="text-red-400 font-black">{{ props.detailData.name }}</span>
+            </h2>
+        </template>
+    </PopupCommon>
+</template>
