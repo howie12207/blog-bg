@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import MainSection from '@c/layouts/mainSection/MainSection.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import BaseTable from '@c/baseTable/BaseTable.vue';
 import PopupEdit from './PopupEdit.vue';
+import PopupConfirm from './PopupConfirm.vue';
 import { FetchArticles } from '@/api/article';
 import { FetchSorts } from '@/api/sort';
 const route = useRoute();
@@ -39,12 +40,15 @@ const statusFilter = status => {
     return type[status] || type['default'];
 };
 
-const operationBtns = [
-    { id: 1, icon: 'edit' },
-    { id: 2, icon: 'enable' },
-    { id: 3, icon: 'disable' },
-    { id: 4, icon: 'delete' }
-];
+const operationBtns = ({ status }) => {
+    const btns = [
+        { id: 1, icon: 'edit', show: true },
+        { id: 2, icon: 'enable', show: status === 0 },
+        { id: 3, icon: 'disable', show: status === 1 },
+        { id: 4, icon: 'delete', show: status === 0 }
+    ];
+    return btns.filter(item => item.show);
+};
 
 const sortList = ref([]);
 const listTitles = [
@@ -101,7 +105,7 @@ const imgSrc = src => {
             <template #operation="{ thisData }">
                 <div class="flex justify-center gap-x-2">
                     <svg
-                        v-for="btn of operationBtns"
+                        v-for="btn of operationBtns(thisData)"
                         :key="btn.id"
                         class="cursor-pointer"
                         width="24"
@@ -129,7 +133,14 @@ const imgSrc = src => {
             :sortList="sortList"
             :detailData="detailData"
             @close="popup"
-            @fetchArticles="fetchArticles"
+            @fetchArticles="fetchArticles($route.query)"
+        />
+        <PopupConfirm
+            v-else-if="popupOpen === 'enable' || popupOpen === 'disable' || popupOpen === 'delete'"
+            :type="popupOpen"
+            :detailData="detailData"
+            @close="popup"
+            @fetchArticles="fetchArticles($route.query)"
         />
     </MainSection>
 </template>

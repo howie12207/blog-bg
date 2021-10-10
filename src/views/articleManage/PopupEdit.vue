@@ -5,7 +5,7 @@ import BaseEditor from '@c/baseEditor/BaseEditor.vue';
 import BaseInput from '@c/baseInput/BaseInput.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import { ElMessage } from 'element-plus';
-import { CreateArticle } from '@/api/article';
+import { CreateArticle, UpdateArticle } from '@/api/article';
 const props = defineProps({
     type: {
         type: String,
@@ -43,6 +43,7 @@ const submit = async close => {
     if (!verify.value) return;
     const now = Date.now();
     const params = {
+        ...props.detailData,
         name: title.value.inputValue,
         content: content.value,
         createTime: props.type === 'edit' ? props.detailData.createTime : now,
@@ -50,12 +51,12 @@ const submit = async close => {
         sorts: sortSelected.value,
         status: status.value
     };
-    const res = await CreateArticle(params);
+    const res = props.type === 'edit' ? await UpdateArticle(params) : await CreateArticle(params);
     if (res) {
         close();
         ElMessage({
             type: 'success',
-            message: '新增文章成功',
+            message: props.type === 'edit' ? '更新文章成功' : '新增文章成功',
             showClose: true
         });
         emit('fetchArticles');
@@ -70,7 +71,7 @@ const verify = computed(() => {
     <Mask @close="closeEmit" :close-out="false">
         <template #default="{ close }">
             <div class="p-8 bg-white overflow-x-hidden overflow-y-hidden h-full rounded">
-                <h1 class="text-2xl font-black mb-4">
+                <h1 class="text-2xl text-center font-black mb-4">
                     {{ type === 'create' ? '新增文章' : '編輯文章' }}
                 </h1>
                 <section class="overflow-y-auto max-h-[80vh]">
@@ -100,8 +101,8 @@ const verify = computed(() => {
                     ></el-input>
                 </section>
                 <div class="flex justify-center mt-4 gap-x-8">
+                    <BaseButton @click="submit(close)" :disabled="!verify">確認</BaseButton>
                     <BaseButton mainColor="rgb(107, 114, 128)" @click="close">取消</BaseButton>
-                    <BaseButton @click="submit(close)" :disabled="!verify">送出</BaseButton>
                 </div>
             </div>
         </template>
