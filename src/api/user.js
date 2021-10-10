@@ -41,3 +41,34 @@ export function DeleteMember(id) {
         method: 'delete'
     });
 }
+
+export function CreateAdmin(data) {
+    return request({
+        url: '/user/admin',
+        method: 'post',
+        data
+    });
+}
+
+export function FetchAdmins(params) {
+    return request({
+        url: '/user/admin',
+        method: 'get',
+        params
+    });
+}
+
+export function UpdateAdmin(data) {
+    return request({
+        url: `/user/admin/${data._id}`,
+        method: 'put',
+        data
+    });
+}
+
+export function DeleteAdmin(id) {
+    return request({
+        url: `/user/admin/${id}`,
+        method: 'delete'
+    });
+}

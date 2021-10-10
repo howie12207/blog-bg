@@ -4,7 +4,7 @@ import Mask from '@c/mask/Mask.vue';
 import BaseInput from '@c/baseInput/BaseInput.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import { ElMessage } from 'element-plus';
-import { CreateMember, UpdateMember } from '@/api/user';
+import { CreateAdmin, UpdateAdmin } from '@/api/user';
 const props = defineProps({
     type: {
         type: String,
@@ -19,7 +19,7 @@ const props = defineProps({
         default: () => ({})
     }
 });
-const emit = defineEmits(['close', 'fetchMembers']);
+const emit = defineEmits(['close', 'fetchAdmins']);
 
 const account = ref({
     inputValue: props.detailData.account || '',
@@ -111,15 +111,15 @@ const submit = async close => {
         status: status.value
     };
     if (password.value.inputValue) params.password = password.value.inputValue;
-    const res = props.type === 'edit' ? await UpdateMember(params) : await CreateMember(params);
+    const res = props.type === 'edit' ? await UpdateAdmin(params) : await CreateAdmin(params);
     if (res) {
         close();
         ElMessage({
             type: 'success',
-            message: props.type === 'edit' ? '更新會員成功' : '新增會員成功',
+            message: props.type === 'edit' ? '更新管理員成功' : '新增管理員成功',
             showClose: true
         });
-        emit('fetchMembers');
+        emit('fetchAdmins');
     }
 };
 const verify = computed(() => {
@@ -139,7 +139,7 @@ const verify = computed(() => {
         <template #default="{ close }">
             <div class="w-96 p-8 bg-white overflow-x-hidden overflow-y-hidden h-full rounded">
                 <h1 class="text-2xl text-center font-black mb-4">
-                    {{ type === 'create' ? '新增會員' : '編輯會員' }}
+                    {{ type === 'create' ? '新增管理員' : '編輯管理員' }}
                 </h1>
                 <section class="overflow-y-auto max-h-[80vh]">
                     <BaseInput
