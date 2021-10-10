@@ -6,7 +6,7 @@ export const router = createRouter({
     routes: [
         {
             path: '/',
-            component: import('@/views/home/Home.vue'),
+            component: () => import('@/views/home/Home.vue'),
             meta: {
                 name: 'Dashboard'
             }
@@ -21,16 +21,23 @@ export const router = createRouter({
         },
         {
             path: '/articleManage',
-            component: import('@/views/articleManage/ArticleManage.vue'),
+            component: () => import('@/views/articleManage/ArticleManage.vue'),
             meta: {
                 name: 'Article'
             }
         },
         {
             path: '/sortManage',
-            component: import('@/views/sortManage/SortManage.vue'),
+            component: () => import('@/views/sortManage/SortManage.vue'),
             meta: {
                 name: 'Sort'
+            }
+        },
+        {
+            path: '/worksManage',
+            component: () => import('@/views/worksManage/WorksManage.vue'),
+            meta: {
+                name: 'Works'
             }
         }
         // {

@@ -7,6 +7,7 @@ import BaseTable from '@c/baseTable/BaseTable.vue';
 import PopupEdit from './PopupEdit.vue';
 import PopupConfirm from './PopupConfirm.vue';
 import { FetchSorts } from '@/api/sort';
+import { Loading } from '../../components/baseTable/BaseTable.stories';
 const route = useRoute();
 const router = useRouter();
 
@@ -28,7 +29,9 @@ const listTitles = [
 ];
 const listData = ref([]);
 const fetchSorts = async () => {
+    isLoading.value = true;
     listData.value = (await FetchSorts()) || [];
+    isLoading.value = false;
 };
 onMounted(() => {
     fetchSorts();
