@@ -4,7 +4,9 @@ import { useRoute, useRouter } from 'vue-router';
 import MainSection from '@c/layouts/mainSection/MainSection.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import BaseTable from '@c/baseTable/BaseTable.vue';
+import PopupEdit from './PopupEdit.vue';
 import { FetchArticles } from '@/api/article';
+import { FetchSorts } from '@/api/sort';
 const route = useRoute();
 const router = useRouter();
 
@@ -44,6 +46,7 @@ const operationBtns = [
     { id: 4, icon: 'delete' }
 ];
 
+const sortList = ref([]);
 const listTitles = [
     { label: '建立日期', key: 'createTime', type: 'date' },
     { label: '標題', key: 'name' },
@@ -59,9 +62,20 @@ const fetchArticles = async query => {
     listData.value = res.content || [];
     total.value = res.totalElements || 0;
 };
+const fetchSorts = async () => {
+    sortList.value = (await FetchSorts()) || [];
+};
 onMounted(() => {
     fetchArticles(pageOptions.value);
+    fetchSorts();
 });
+
+const detailData = ref({});
+const popupOpen = ref(undefined);
+const popup = (target, data) => {
+    detailData.value = data || {};
+    popupOpen.value = target;
+};
 
 const imgSrc = src => {
     const path = `./img/${src}`;
@@ -75,7 +89,9 @@ const imgSrc = src => {
         title="文章管理"
         desc="此區域可新增、查看、編輯、刪除、上架、下架文章，若您沒有對應選項按鈕，代表您沒有權限。"
     >
-        <div class="text-right mb-4"><BaseButton>新增文章</BaseButton></div>
+        <div class="text-right mb-4">
+            <BaseButton @click="popup('create')">新增文章</BaseButton>
+        </div>
         <BaseTable :loading="isLoading" :listTitles="listTitles" :listData="listData">
             <template #status="{ thisData }">
                 <span :class="statusFilter(thisData.status).color">{{
@@ -91,6 +107,7 @@ const imgSrc = src => {
                         width="24"
                         height="24"
                         viewBox="0 0 24 24"
+                        @click="popup(btn.icon, thisData)"
                     >
                         <use :xlink:href="imgSrc(`${btn.icon}.svg`) + `#${btn.icon}`"></use>
                     </svg></div></template
@@ -106,5 +123,13 @@ const imgSrc = src => {
             @currentChange="currentChange"
         >
         </el-pagination>
+        <PopupEdit
+            v-if="popupOpen === 'create' || popupOpen === 'edit'"
+            :type="popupOpen"
+            :sortList="sortList"
+            :detailData="detailData"
+            @close="popup"
+            @fetchArticles="fetchArticles"
+        />
     </MainSection>
 </template>

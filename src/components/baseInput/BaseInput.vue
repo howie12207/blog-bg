@@ -108,7 +108,7 @@ const clear = () => {
 </script>
 
 <template>
-    <section :class="['input_section', !isValid && blurInput && 'is_error', !multi && 'flex']">
+    <section :class="['input_section', !isValid && blurInput && 'is_error', !multi && 'not_multi']">
         <div class="left">
             <slot name="label">
                 <label :class="['label', valueSync !== '' && 'not_empty']" :for="id">{{

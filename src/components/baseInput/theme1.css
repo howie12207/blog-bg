@@ -29,6 +29,7 @@
 }
 .input {
     display: block;
+    width: 100%;
     position: relative;
     padding: 8px 24px 8px 16px;
     background-color: transparent;

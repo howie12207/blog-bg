@@ -59,13 +59,13 @@
     color: var(--errorColor);
 }
 
-.flex {
+.not_multi {
     display: flex;
 }
-.flex .label {
+.not_multi .label {
     flex-shrink: 0;
     margin-right: 8px;
 }
-.flex .right {
+.not_multi .right {
     flex-grow: 1;
 }
