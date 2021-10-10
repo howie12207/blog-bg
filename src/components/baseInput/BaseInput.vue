@@ -40,6 +40,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    disabled: {
+        type: Boolean,
+        default: false
+    },
     multi: {
         type: Boolean,
         default: false
@@ -126,6 +130,7 @@ const clear = () => {
                     class="input"
                     :type="type"
                     :placeholder="placeholder"
+                    :disabled="disabled"
                     @blur="onBlur(inputValue)"
                     @keyup="onKeyup(inputValue, $event)"
                     @keydown="onKeydown"

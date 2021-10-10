@@ -95,6 +95,18 @@ export default {
                 }
             }
         },
+        disabled: {
+            description: 'Input disabled',
+            type: { name: 'boolean' },
+            table: {
+                defaultValue: {
+                    summary: false
+                },
+                type: {
+                    summary: 'boolean'
+                }
+            }
+        },
         multi: {
             description: 'Mutiple lines for label and input',
             type: { name: 'boolean' },
@@ -213,7 +225,11 @@ Common.args = {
     type: 'text',
     rules: {},
     multi: false,
-    clearBtn: false
+    clearBtn: false,
+    disabled: false,
+    focus: false,
+    errReserve: true,
+    theme: 1
 };
 
 export const IsRequired = Template.bind({});
