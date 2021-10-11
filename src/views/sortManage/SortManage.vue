@@ -1,22 +1,24 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import MainSection from '@c/layouts/mainSection/MainSection.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import BaseTable from '@c/baseTable/BaseTable.vue';
 import PopupEdit from './PopupEdit.vue';
 import PopupConfirm from './PopupConfirm.vue';
 import { FetchSorts } from '@/api/sort';
-import { Loading } from '../../components/baseTable/BaseTable.stories';
-const route = useRoute();
-const router = useRouter();
+const store = useStore();
 
 const isLoading = ref(false);
 
+const auth = computed(() => {
+    return store.getters.auth?.article || [];
+});
+
 const operationBtns = () => {
     const btns = [
-        { id: 1, icon: 'edit', show: true },
-        { id: 4, icon: 'delete', show: true }
+        { id: 1, icon: 'edit', show: auth.value.includes(4) },
+        { id: 4, icon: 'delete', show: auth.value.includes(8) }
     ];
     return btns.filter(item => item.show);
 };
@@ -57,7 +59,9 @@ const imgSrc = src => {
         desc="此區域可新增、查看、編輯、刪除分類，若您沒有對應選項按鈕，代表您沒有權限。"
     >
         <div class="text-right mb-4">
-            <BaseButton mainColor="#3B82F6" @click="popup('create')">新增分類</BaseButton>
+            <BaseButton v-if="auth.includes(2)" mainColor="#3B82F6" @click="popup('create')"
+                >新增分類</BaseButton
+            >
         </div>
         <BaseTable :loading="isLoading" :listTitles="listTitles" :listData="listData">
             <template #color="{ thisData }">

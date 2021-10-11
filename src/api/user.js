@@ -1,5 +1,7 @@
 import request from '@/utils/request';
+import { router } from '@/router';
 import { setToken } from '@/utils/auth';
+import { store } from '@/store';
 
 export async function Login(data) {
     const res = await request({
@@ -7,8 +9,20 @@ export async function Login(data) {
         method: 'post',
         data
     });
-    if (res) setToken(res.token);
+    if (res) {
+        setToken(res.token);
+        const data = await FetchUserData();
+        store.commit('SET_USER_DATA', data);
+        router.push('/');
+    }
     return res;
+}
+
+export function FetchUserData() {
+    return request({
+        url: '/info',
+        method: 'get'
+    });
 }
 
 export function CreateMember(data) {

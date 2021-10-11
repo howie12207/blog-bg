@@ -1,7 +1,10 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { removeToken } from '@/utils/auth';
 import { ElMessage } from 'element-plus';
+import { useStore } from 'vuex';
+const store = useStore();
 const router = useRouter();
 
 const logout = () => {
@@ -13,6 +16,10 @@ const logout = () => {
         showClose: true
     });
 };
+
+const name = computed(() => {
+    return store.state.userData.name;
+});
 
 const imgSrc = src => {
     const path = `./img/${src}`;
@@ -29,8 +36,9 @@ const imgSrc = src => {
             <router-link to="/">
                 <img class="w-8" :src="imgSrc('logo.png')" alt="logo" />
             </router-link>
+            <span class="ml-auto mr-4">{{ name }}</span>
             <svg
-                class="ml-auto cursor-pointer transition-all hover:text-blue-500"
+                class="cursor-pointer transition-all hover:text-blue-500"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"

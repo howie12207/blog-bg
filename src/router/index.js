@@ -20,42 +20,42 @@ export const router = createRouter({
             }
         },
         {
-            path: '/articleManage',
+            path: '/article',
             component: () => import('@/views/articleManage/ArticleManage.vue'),
             meta: {
                 name: 'Article'
             }
         },
         {
-            path: '/commentManage',
+            path: '/comment',
             component: () => import('@/views/commentManage/CommentManage.vue'),
             meta: {
                 name: 'Comment'
             }
         },
         {
-            path: '/sortManage',
+            path: '/sort',
             component: () => import('@/views/sortManage/SortManage.vue'),
             meta: {
                 name: 'Sort'
             }
         },
         {
-            path: '/worksManage',
+            path: '/works',
             component: () => import('@/views/worksManage/WorksManage.vue'),
             meta: {
                 name: 'Works'
             }
         },
         {
-            path: '/memberManage',
+            path: '/member',
             component: () => import('@/views/memberManage/MemberManage.vue'),
             meta: {
                 name: 'Member'
             }
         },
         {
-            path: '/adminManage',
+            path: '/admin',
             component: () => import('@/views/adminManage/AdminManage.vue'),
             meta: {
                 name: 'Admin'

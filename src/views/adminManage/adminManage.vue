@@ -1,5 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import MainSection from '@c/layouts/mainSection/MainSection.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
@@ -7,10 +8,15 @@ import BaseTable from '@c/baseTable/BaseTable.vue';
 import PopupEdit from './PopupEdit.vue';
 import PopupConfirm from './PopupConfirm.vue';
 import { FetchAdmins } from '@/api/user';
+const store = useStore();
 const route = useRoute();
 const router = useRouter();
 
 const isLoading = ref(false);
+
+const auth = computed(() => {
+    return store.getters.auth?.article || [];
+});
 
 const pageOptions = ref({ page: route.query.page || 0, size: 10 });
 const currentPage = ref(Number(route.query.page) + 1 || 1);
@@ -41,10 +47,10 @@ const statusFilter = status => {
 
 const operationBtns = ({ status }) => {
     const btns = [
-        { id: 1, icon: 'edit', show: true },
-        { id: 2, icon: 'enable', show: status === 0 },
-        { id: 3, icon: 'disable', show: status === 1 },
-        { id: 4, icon: 'delete', show: status === 0 }
+        { id: 1, icon: 'edit', show: auth.value.includes(4) },
+        { id: 2, icon: 'enable', show: auth.value.includes(4) && status === 0 },
+        { id: 3, icon: 'disable', show: auth.value.includes(4) && status === 1 },
+        { id: 4, icon: 'delete', show: auth.value.includes(8) && status === 0 }
     ];
     return btns.filter(item => item.show);
 };
@@ -90,7 +96,9 @@ const imgSrc = src => {
         desc="此區域可新增、查看、編輯、刪除、啟用、禁用管理員，若您沒有對應選項按鈕，代表您沒有權限。"
     >
         <div class="text-right mb-4">
-            <BaseButton mainColor="#3B82F6" @click="popup('create')">新增管理員</BaseButton>
+            <BaseButton v-if="auth.includes(2)" mainColor="#3B82F6" @click="popup('create')"
+                >新增管理員</BaseButton
+            >
         </div>
         <BaseTable :loading="isLoading" :listTitles="listTitles" :listData="listData">
             <template #status="{ thisData }">

@@ -1,0 +1,8 @@
+[
+    { "id": 1, "label": "文章管理", "icon": "article", "url": "/article" },
+    { "id": 2, "label": "留言管理", "icon": "comment", "url": "/comment" },
+    { "id": 3, "label": "分類管理", "icon": "sort", "url": "/sort" },
+    { "id": 4, "label": "作品管理", "icon": "works", "url": "/works" },
+    { "id": 5, "label": "會員管理", "icon": "member", "url": "/member" },
+    { "id": 6, "label": "管理員管理", "icon": "admin", "url": "/admin" }
+]
