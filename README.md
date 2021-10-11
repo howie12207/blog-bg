@@ -1,7 +1,20 @@
-# Vue 3 + Vite
+# 作品 - 個人網站後台
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 功能
 
-## Recommended IDE Setup
+-   文章 CRUD
+-   分類 CRUD
+-   作品 CRUD
+-   會員 CRUD
+-   管理員 CRUD
+-   權限配置
 
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+### 技術
+
+-   Vite
+-   Vue3
+-   Tailwind
+-   Element Plus
+-   vue-quill
+
+[Demo](https://howie12207.github.io/blog-bg)
