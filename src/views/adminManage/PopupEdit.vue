@@ -5,6 +5,7 @@ import BaseInput from '@c/baseInput/BaseInput.vue';
 import BaseButton from '@c/baseButton/BaseButton.vue';
 import { ElMessage } from 'element-plus';
 import { CreateAdmin, UpdateAdmin } from '@/api/user';
+import { arraySum, authToArray } from '@/utils/auth';
 const props = defineProps({
     type: {
         type: String,
@@ -78,6 +79,71 @@ const email = ref({
     }
 });
 const status = ref(props.detailData.status ?? 1);
+
+const commonList = [
+    { label: '查看', value: 1 },
+    { label: '創建', value: 2 },
+    { label: '編輯', value: 4 },
+    { label: '刪除', value: 8 }
+];
+const menuList = ref([
+    {
+        name: '文章管理權限',
+        value: authToArray(props.detailData?.auth?.article) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    },
+    {
+        name: '留言管理權限',
+        value: authToArray(props.detailData?.auth?.comment) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    },
+    {
+        name: '分類管理權限',
+        value: authToArray(props.detailData?.auth?.sort) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    },
+    {
+        name: '作品管理權限',
+        value: authToArray(props.detailData?.auth?.works) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    },
+    {
+        name: '會員管理權限',
+        value: authToArray(props.detailData?.auth?.member) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    },
+    {
+        name: '管理員管理權限',
+        value: authToArray(props.detailData?.auth?.admin) || [],
+        all: false,
+        isIndeterminate: true,
+        list: commonList
+    }
+]);
+const checkAll = (index, status) => {
+    const target = menuList.value[index];
+    const list = target.list.map(item => item.value);
+    target.value = status ? list : [];
+    target.isIndeterminate = false;
+};
+const checkedChange = (index, status) => {
+    const target = menuList.value[index];
+    const list = target.list.map(item => item.value);
+    const checkedCount = status.length;
+    target.all = checkedCount === list.length;
+    target.isIndeterminate = checkedCount > 0 && checkedCount < list.length;
+};
+
 const confirmPwd = target => {
     if (target === 'first' && confirmPassword.value.inputValue === '') return;
     if (password.value.inputValue !== confirmPassword.value.inputValue) {
@@ -108,6 +174,14 @@ const submit = async close => {
         account: account.value.inputValue,
         name: name.value.inputValue,
         email: email.value.inputValue,
+        auth: {
+            article: arraySum(menuList.value[0].value),
+            comment: arraySum(menuList.value[1].value),
+            sort: arraySum(menuList.value[2].value),
+            works: arraySum(menuList.value[3].value),
+            member: arraySum(menuList.value[4].value),
+            admin: arraySum(menuList.value[5].value)
+        },
         status: status.value
     };
     if (password.value.inputValue) params.password = password.value.inputValue;
@@ -176,6 +250,26 @@ const verify = computed(() => {
                         v-model:isValid="email.isValid"
                         class="my-2"
                     />
+                    <div v-for="(menu, index) of menuList" :key="menu.name">
+                        <label class="block">{{ menu.name }}</label>
+                        <el-checkbox
+                            v-model="menu.all"
+                            :indeterminate="menu.isIndeterminate"
+                            @change="checkAll(index, $event)"
+                            >全選</el-checkbox
+                        >
+                        <el-checkbox-group
+                            v-model="menu.value"
+                            @change="checkedChange(index, $event)"
+                        >
+                            <el-checkbox
+                                v-for="auth of menu.list"
+                                :label="auth.value"
+                                :key="auth.value"
+                                >{{ auth.label }}</el-checkbox
+                            >
+                        </el-checkbox-group>
+                    </div>
                     <label class="block mt-4 text-lg">狀態</label>
                     <el-radio v-model="status" :label="0">禁用</el-radio>
                     <el-radio v-model="status" :label="1">啟用</el-radio>
