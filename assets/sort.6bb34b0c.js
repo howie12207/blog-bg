@@ -1,1 +1,0 @@
-import{s as e}from"./index.8e1ea922.js";function o(t){return e({url:"/sort",method:"post",data:t})}function s(){return e({url:"/sort",method:"get"})}function n(t){return e({url:`/sort/${t._id}`,method:"put",data:t})}function u(t){return e({url:`/sort/${t}`,method:"delete"})}export{o as C,u as D,s as F,n as U};
